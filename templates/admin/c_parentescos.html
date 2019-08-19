@@ -1,0 +1,140 @@
+{% extends 'layout_principal.html'%}
+
+{% block titulo %}- Catálogo Niveles de Estudio {% endblock %}
+
+{% block alertas %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+<ul>
+    {% if messages %}
+
+    {% for category, message in messages %}
+
+    {% if category == 'error'%}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% else %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+       {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    {% endif %}
+</ul>
+{% endwith %}
+
+{% endblock %}
+
+
+{% block contenido %}
+<div class="container-fluid py-3">
+
+    <div class="row justify-content-md-center">
+
+        <div class="col-2">
+
+        </div>
+        <div class="col-8">
+            <div class="container-flluid">
+                <div class="row justify-content-md-center">
+                    <div class="col-md-auto">
+                        <table id="catalogo" class="table table-hover table-striped table-bordered table-sm">
+
+                            <thead>
+                            <td scope="col" align="center">ID</td>
+                            <td align="center">Parentesco</td>
+
+                            </thead>
+                            <tbody>
+                            {% for parentesco in data%}
+                            <tr>
+                                <td align="center">{{parentesco.0}}</td>
+                                <td>{{parentesco.1}}</td>
+
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-2">
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="captura_par" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Titulo">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="fas fa-times-circle"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="agregar_parentesco">
+                    <div class="form-group row">
+                        <label for="parentesco" class="col-sm-2 col-form-label">Parentesco</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="parentesco" placeholder="Parentesco"
+                                   name="parentesco">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row" hidden>
+                        <label for="id_parentesco" class="col-sm-2 col-form-label">ID PArentesco</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="id_parentesco" placeholder="ID Nivel" name="id">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row justify-content-end">
+                        <div class="col-sm-8"></div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-primary far fa-save"></button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block sripts %}
+
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
+
+<script src="{{ url_for('static', filename='js/menu_R_catalogos/parentesco.js') }}"></script>
+
+
+{% endblock %}

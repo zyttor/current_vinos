@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.slim.js"
+            integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
+            crossorigin="anonymous"></script>
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+    <!--iconos fontawesome -->
+    <link href="{{ url_for('static', filename='iconos/css/all.css') }}" rel="stylesheet"> <!--load all styles -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- activate icons awesome-->
+
+    <!-- fin icons awesome --->
+    <!--css's custom's-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/submenu.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+
+    <title>Nomina {% block titulo %}{% endblock %}</title>
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <!-- div nav bar -->
+    <div class="row">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light col-12">
+            <div class="col-2 ml-0 pl-0 pr-0 mr-0">
+                <a class="navbar-brand col-12 m-0 p-0" href="#">
+                    <img src="{{ url_for('static', filename='images/brand.png') }} " height="70" class="col-12">
+                </a>
+            </div>
+            <div class="col-10 pl-0 ml-0">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="drop-archivos" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Perfil
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="drop-archivos">
+                                {% if g.user %}
+                                <a class="dropdown-item" href="{{ url_for('auth.logout') }}">Salir del sistema</a>
+                                {% endif %}
+                                <div class="dropdown-divider"></div>
+                                <!--Van las opciones de logeados -->
+                                <a class="dropdown-item disabled" href="#">Cambiar Empresa</a>
+                                <a class="dropdown-item disabled" href="#">Cambiar Usuario</a>
+                                <a class="dropdown-item disabled" href="#">Cambiar Datos Personales</a>
+                                <div class="dropdown-divider"></div>
+
+                                <!--terminan las opciones logeados -->
+                            </div>
+                        </li>
+
+                        {% if g.user %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Módulos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">Catálogos</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ url_for('admin.c_nivel_estudio') }}">Nivel
+                                            de Estudios</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('admin.c_parentescos') }}">Parentesco</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('admin.c_doctos') }}">Tipo Documento</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('admin.c_ayudas') }}">Tipos Ayuda</a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('admin.c_justificaciones') }}">Justificaciones de Faltas y Retardos</a>
+                                        </li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a class="dropdown-item" href="{{ url_for('admin.c_catalogo_areas') }}">Áreas</a></li>
+                                        <li><a class="dropdown-item" href="#">Puestos</a></li>
+                                        <li><a class="dropdown-item" href="#">Áreas y Puestos</a></li>
+                                        <li><a class="dropdown-item" href="#">Turnos</a></li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a class="dropdown-item" href="#">Tipo de Nómina</a></li>
+                                        <li><a class="dropdown-item" href="#">Conceptos de Nómina</a></li>
+                                        <li><a class="dropdown-item" href="#">Párametros deNómina</a></li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a class="dropdown-item" href="#">Sucursales</a></li>
+
+                                    </ul>
+                                </li>
+                                <li><a class="dropdown-item" href="#">Nómina</a></li>
+                                <li><a class="dropdown-item" href="#">Prestamos Operativos</a></li>
+
+                            </ul>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item ">
+                            <a class="nav-link disabled" href="#">opcion 1</a>
+                        </li>
+
+                        <li class="nav-item ">
+                            <a class="nav-link disabled" href="#">opcion 2</a>
+                        </li>
+
+                    </ul>
+
+
+                    {% if g.user %}
+
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form> <!--   -->
+                    {% else %}
+                    <form class="form-inline my-2 my-lg-0" action="log2" method="POST">
+                        <input class="form-control mr-sm-1" type="text" placeholder="user" name="user">
+                        <input class="form-control mr-sm-1" type="password" placeholder="password" name="clave">
+
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+                    </form>
+                    {% endif %}
+
+
+                </div>
+            </div>
+
+            </button>
+        </nav>
+
+
+    </div>
+    <!-- inicia continidao submenu    -->
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    {% block alertas %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        <div class="col-2"></div>
+
+    </div>
+
+
+    <div id="" class="row">
+        {% block contenido %}{% endblock %}
+    </div>
+    <!-- fin  continidao submenu    -->
+
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+
+<!-- para las tablas-->
+
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<!-- js's custom's -->
+<script src="{{ url_for('static', filename='js/submenu.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+{% block sripts %}
+    <script type="application/javascript">
+    $(document).ready(function () {
+        $('#catalogo').DataTable();
+    });
+
+
+</script>
+
+
+{% endblock %}
+</body>
+
+</html>

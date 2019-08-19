@@ -1,0 +1,181 @@
+{% extends 'layout_principal.html'%}
+
+{% block titulo %}- Catálogo Niveles de Estudio {% endblock %}
+
+{% block alertas %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+{% if messages %}
+
+{% for category, message in messages %}
+
+{% if category == 'error'%}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% else %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+{% endfor %}
+
+{% endif %}
+
+{% endwith %}
+
+{% endblock %}
+
+
+{% block contenido %}
+<div class="container-fluid py-3">
+
+    <div class="row justify-content-md-center">
+
+        <div class="col-2">
+
+        </div>
+        <div class="col-8">
+            <div class="container-flluid">
+                <div class="row justify-content-md-center">
+                    <div class="col-md-auto">
+                        <table id="catalogo" class="table table-hover table-striped table-bordered table-sm">
+
+                            <thead>
+                            <tr>
+                                <td align="center">ID</td>
+                                <td align="center">Descripción de la justificación</td>
+                                <td align="center">Aplica Para</td>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for justificacion in data%}
+                            <tr class="tr-cont">
+                                <td>{{justificacion.0}}</td>
+                                <td class="cadena">{{justificacion.1}}</td>
+                                {% if justificacion.2 == 'F' %}
+                                <td class="folios">Falta</td>
+                                {% endif %}
+                                {% if justificacion.2 == 'R' %}
+                                <td class="folios">Retardo</td>
+                                {% endif %}
+                                {% if justificacion.2 == 'A' %}
+                                <td class="folios">Ambos</td>
+                                {% endif %}
+
+                            </tr>
+
+                            {% endfor %}
+                            </tbody>
+
+                            <tfoot>
+                            <tr>
+                                <td align="center">
+                                    <input type="text">
+                                </td>
+                                <td align="center">
+                                    <input type="text">
+                                </td>
+                                <td align="center">
+                                    <input type="text">
+                                </td>
+
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-2">
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="captura_jus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Titulo">Catalogo Tipos de de Justtficacion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="fas fa-times-circle"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="agregar_retardo">
+                    <div class="form-group row">
+                        <label for="justificacion" class="col-sm-5 col-form-label">descripcion </label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" id="justificacion" placeholder="Tipo de Ayuda"
+                                   name="justificacion">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label for="aplica" class="col-sm-3 col-form-label">Aplica para</label>
+                        <div class="col-sm-9">
+                            <select id="aplica" name="aplica">
+                                <option value="A">Ambos</option>
+                                <option value="F">Faltas</option>
+                                <option value="R">Retardos</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row" hidden>
+                        <label for="id" class="col-sm-2 col-form-label">ID </label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="id" placeholder="ID ayuda" name="id">
+                        </div>
+                    </div>
+
+                    <div class="form-group row justify-content-end">
+                        <div class="col-sm-8"></div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-primary far fa-save"></button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block sripts %}
+
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
+
+
+<script src="{{ url_for('static', filename='js/menu_R_catalogos/justificaciion.js') }}"></script>
+
+
+{% endblock %}
